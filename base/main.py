@@ -6,8 +6,6 @@ from client import ChatBot
 from voice_node import VoiceNode
 
 
-load_dotenv()#Loading .env file
-
 def main():
     bot = ChatBot()
     voice = VoiceNode(['alexa'])
