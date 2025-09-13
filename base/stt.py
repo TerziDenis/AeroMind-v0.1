@@ -7,8 +7,8 @@ class SpeechRecorder:
     def __init__(self):
         self.rate = 16000
         self.chunk = 1024
-        self.silence_thresh = 300
-        self.silence_sec = 2.5
+        self.silence_thresh = 500
+        self.silence_sec = 3
         self.audio = pyaudio.PyAudio()
         self.recognizer = sr.Recognizer()
     
