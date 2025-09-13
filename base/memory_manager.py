@@ -1,6 +1,9 @@
 import json
 import re
+import os
+
 from typing import Tuple, Any, Optional
+
 
 class Memory:
     def __init__(self, filename: str):
@@ -14,7 +17,9 @@ class Memory:
                 content = f.read().strip()
                 return json.loads(content) if content else {}
         except (FileNotFoundError, json.JSONDecodeError):
-            return {}
+            with open(self.filename, 'w') as f:
+                f.write('{}')
+            return self._load_database()
     
     def _save_database(self):
         """Сохранение базы данных в файл"""
