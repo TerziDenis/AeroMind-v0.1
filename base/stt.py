@@ -2,6 +2,7 @@ import pyaudio
 import numpy as np
 import speech_recognition as sr
 
+from modules import color_print
 class SpeechRecorder:
     def __init__(self):
         self.rate = 16000
@@ -59,6 +60,7 @@ class SpeechRecorder:
             )
             return self.recognizer.recognize_google(audio_data, language="ru-RU")#return text
         except:
+            color_print("No voice detected", 'yellow')
             return None
 
 

@@ -1,13 +1,13 @@
-# Тут у нас запускается код, основной файл
-# подтягиваем вначале обработку микрофона отдаём иишке и получаем ответ и печатаем
+import time
+import os
+
 from dotenv import load_dotenv
 from client import ChatBot
 from voice_node import VoiceNode
 
-import time
-import os
 
-load_dotenv()
+load_dotenv()#Loading .env file
+
 def main():
     bot = ChatBot()
     voice = VoiceNode(['alexa'])
@@ -20,25 +20,27 @@ def main():
     
     while True:#Main work cycle
         try:
-            user_input = voice.voice_hearing_start()# тут звук преобразовываем в текст
-            if user_input:
-                if user_input == 'выход':
+            user_request = voice.voice_hearing_start()# Voice to text
+            if user_request:
+                if user_request == any(['exit', 'выход']):
                     break
-                print(user_input)
+                print(user_request)
                 start_time = time.time()
-                reply = bot.get_reply(user_input)# тут нейронка получает текст и сразу возвращает ответ
+                ai_reply = bot.get_reply(user_request)# Ai gets request and returns response
                 end_time = time.time()
                 
-                print(f'Бот: {reply}')
-                print(f'Время ответа: {end_time - start_time:.2f} сек')# контроль качества небольшой
+                print(f'Bot: {ai_reply}')
+                print(f'Response time: {end_time - start_time:.2f} secs')# a lil bit of quality control :)
             else:
                 pass
         
         except KeyboardInterrupt:
-            print("\nЗавершение работы...")
+            print("\nTurning off...")
+            
             break
         except Exception as e:
-            print(f"Ошибка: {e}")
+            print(f"Error: {e}")
+            
             break
 
 if __name__ == "__main__":

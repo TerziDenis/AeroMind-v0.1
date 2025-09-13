@@ -1,5 +1,8 @@
 import g4f
+
 from memory_manager import Memory
+from modules import color_print
+
 
 class ChatBot():
     def __init__(self):
@@ -12,28 +15,22 @@ class ChatBot():
         return {
             'role': 'system',
             'content': (
-                "Ты - интеллектуальный ассистент с доступом к внешней базе долговременной памяти. "
-                "\n\n"
-                "## ИНСТРУКЦИИ ПО РАБОТЕ С ПАМЯТЬЮ:\n"
-                "1. ЕСЛИ пользователь просит ВСПОМНИТЬ какую-то информацию или которую ты знать не можешь "
-                "(имя, предпочтения, данные, факты о себе и т.д.) →\n"
-                "   → ВЕРНИ: \"MEMORY_READ: <ключ_на_английском>\"\n"
+                "Ты - AI ассистент с долговременной памятью.\n\n"
+                
+                "## ПРАВИЛА РАБОТЫ С ПАМЯТЬЮ:\n"
+                "1. ЕСЛИ пользователь просит ВСПОМНИТЬ информацию →\n"
+                "   → ОТВЕТЬ: \"MEMORY_READ: <ключ_на_английском>\"\n"
                 "   Пример: \"MEMORY_READ: user_name\"\n\n"
                 
-                "2. ЕСЛИ пользователь просит ЗАПОМНИТЬ какую-либо информацию →\n"
-                "   → ВЕРНИ ТОЛЬКО: \"MEMORY_WRITE: <ключ>=<значение>\"\n"
+                "2. ЕСЛИ пользователь просит ЗАПОМНИТЬ информацию →\n"
+                "   → ОТВЕТЬ: \"MEMORY_WRITE: <ключ>=<значение>\"\n"
                 "   Пример: \"MEMORY_WRITE: favorite_color=синий\"\n\n"
                 
-                "3. Ключи должны быть на английском, краткие и описательные:\n"
-                "   - user_name, user_age, user_city\n"
-                "   - favorite_color, favorite_food, favorite_movie\n"
-                "   - phone_number, email_address, birth_date\n\n"
+                "3. Используй английские ключи (user_name, favorite_color, phone_number, etc.)\n"
+                "4. НЕ выдумывай данные. Если информации нет - используй MEMORY_READ\n"
+                "5. Для обычных запросов работай как стандартный ассистент\n\n"
                 
-                "4. НИКОГДА не выдумывай данные\n"
-                "5. Для всего остального отвечай как обычный ассистент\n\n"
-                
-                "Отвечай предельно кратко и по делу. Избегай лишних слов в ответах."
-                "Всегда обращай внимание на инструкции с памятью"
+                "Отвечай кратко и по делу. Без лишних слов."
             )
         }
     
@@ -91,7 +88,6 @@ class ChatBot():
         return self.memory.write(ai_reply)
     
     def test_connection(self):
-        from termcolor import colored
         """AI connection test"""
         try:
             response = g4f.ChatCompletion.create(
@@ -100,15 +96,15 @@ class ChatBot():
                 max_tokens=10
             )
             if response:
-                print(colored("✓ AI is connected and ready for work", 'green'))
+                color_print("✓ AI is connected and ready for work", 'green')
                 
                 return True
             else:
-                print(colored("✗ Servers is busy, try later", 'red'))
+                color_print("✗ Servers is busy, try later", 'red')
                 
                 return False
         except Exception as e:
-            print(colored(f"✗ AI connection error: {e}", 'red'))
+            color_print(f"✗ AI connection error: {e}", 'red')
             
             return False
         

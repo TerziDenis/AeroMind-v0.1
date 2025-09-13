@@ -1,5 +1,8 @@
+from modules import color_print
 from ww_detector import Detector
 from stt import SpeechRecorder
+
+
 
 class VoiceNode():
     def __init__(self, keywords: list):
@@ -12,7 +15,7 @@ class VoiceNode():
         Initiates keyword detetcor, start records voice and translating it to text, returns it
         """
         
-        print("Слушаю кодовое слово")
+        color_print("Listening to the keyword", 'yellow')
         
         result = self.detector.detection(self.voice_stream)#слушаем ключевое слово
 
